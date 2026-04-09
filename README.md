@@ -5,5 +5,4 @@
 
 
 
-Este calendario es para todo tipo de usuario, cuenta con diseño infantil, pero con todas las funciones necesarias, muestra años bisiestos, feriados, e inamovibles.
-Instalación: Instalación: para ejecutar este repositorio, es necesario copiar la URL de el repositorio la cuan es la siguiente: https://github.com/EnzoPuntano/Calendario_modificado , en el escritorio abrir el terminal de Git BASH Here, donde ejecutamos el siguiente comando: git clone (url del repositorio), y presionar ENTER, una vez hecho esto, se genera la carpeta con todos los archivos de la calculadora, y como paso final, ingresar al archivo HTML y ejecutar desde Go Live o iniciar depuración.
+Este calendario es para todo tipo de usuario, cuenta con diseño infantil, pero con todas las funciones necesarias, muestra años bisiestos, feriados, e inamovibles. Instalación: para ejecutar este repositorio, es necesario copiar la URL de el repositorio la cuan es la siguiente: https://github.com/EnzoPuntano/Calendario_modificado , en el escritorio abrir el terminal de Git BASH Here, donde ejecutamos el siguiente comando: git clone (url del repositorio), y presionar ENTER, una vez hecho esto, se genera la carpeta con todos los archivos de la calculadora, y como paso final, ingresar al archivo HTML y ejecutar desde Go Live o iniciar depuración.
