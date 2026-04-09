@@ -6,17 +6,45 @@
     <title>Calendario Mágico 🌈</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
 
+    <!-- ══════════════════════════════════════
+         PANTALLA DE LOGIN
+    ══════════════════════════════════════════ -->
+    <div id="login-screen">
+        <div id="login-card">
+            <div id="login-icono">📅</div>
+            <h2 id="login-titulo">Calendario</h2>
+            <p id="login-sub">INGRESÁ TU NOMBRE PARA CONTINUAR</p>
+            <input id="login-input" type="text" maxlength="20" placeholder="Tu nombre..." autocomplete="off"/>
+            <p id="login-error"></p>
+            <button id="login-btn">ENTRAR ▶</button>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         CONTENIDO PRINCIPAL
+    ══════════════════════════════════════════ -->
+    <div id="main-wrapper" class="main-oculto">
+
     <div class="page-wrapper">
 
-        <!-- Nubes decorativas de fondo -->
+        <!-- Nubes decorativas (solo modo infantil) -->
         <div class="cloud cloud--1">☁️</div>
         <div class="cloud cloud--2">⛅</div>
         <div class="cloud cloud--3">☁️</div>
+
+        <!-- Banner: saludo + switch de modo -->
+        <div id="saludo-banner">
+            <span id="saludo-texto">👋 Hola!</span>
+            <button id="modo-switch-btn">
+                <span id="modo-icon">🧒</span>
+                <span id="modo-label">MODO INFANTIL</span>
+            </button>
+        </div>
 
         <!-- Título con mascota -->
         <div class="header">
@@ -115,6 +143,8 @@
         <div class="tooltip" id="tooltip"></div>
 
     </div>
+
+    </div><!-- /main-wrapper -->
 
     <script src="./js/script.js"></script>
 </body>

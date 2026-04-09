@@ -1,31 +1,72 @@
 /* =====================================================
-   CALENDARIO MÁGICO — style.css
-   Estética infantil: colores pastel, Fredoka One,
-   mascota animada, botones con sombra "toy"
+   CALENDARIO — style.css
+   Dos modos: Adulto (oscuro elegante) e Infantil (pastel)
    ===================================================== */
 
-/* ── Variables ─────────────────────────────────────── */
-:root {
-    --sky:          #e0f2fe;       /* fondo cielo */
-    --white:        #ffffff;
-    --card-bg:      #ffffff;
-    --card-border:  #bae6fd;
-    --text-dark:    #1e3a5f;
-    --text-muted:   #7aa5c8;
+/* ── Reset ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* Paleta de acento */
-    --mint:         #34d399;
-    --mint-dark:    #059669;
-    --mint-soft:    #d1fae5;
-    --coral:        #fb7185;
-    --coral-soft:   #ffe4e6;
-    --lemon:        #fde047;
-    --lemon-dark:   #ca8a04;
-    --violet:       #a78bfa;
-    --violet-soft:  #ede9fe;
-    --peach:        #fdba74;
+/* ════════════════════════════════════════════════════
+   VARIABLES — Modo Adulto (default)
+════════════════════════════════════════════════════ */
+:root {
+    /* Fondo y superficies */
+    --bg-from:      #0f0e17;
+    --bg-to:        #0f0e17;
+    --card-bg:      #1a1828;
+    --card-border:  #2e2b47;
+    --surface-2:    #221f35;
+    --text-dark:    #e8e4f0;
+    --text-muted:   #7a748f;
+    --accent:       #c8a96e;
+    --accent-soft:  rgba(200,169,110,.15);
 
     /* Feriados */
+    --holiday-bg:       rgba(220,80,80,.18);
+    --holiday-text:     #f07070;
+    --holiday-dot:      #e05555;
+    --holiday-movil-bg: rgba(80,140,220,.18);
+    --holiday-movil-txt:#70a8f0;
+    --holiday-movil-dot:#508cdc;
+
+    /* Today */
+    --today-bg:     #c8a96e;
+    --today-text:   #0f0e17;
+    --today-shadow: rgba(200,169,110,.4);
+
+    --radius-card:  14px;
+    --radius-cell:  10px;
+    --shadow-card:  0 24px 60px rgba(0,0,0,.5);
+    --card-border-w: 1px;
+
+    /* Navegación */
+    --nav-bg:       #1a1828;
+    --nav-border:   #2e2b47;
+    --nav-color:    #7a748f;
+    --nav-hover-bg: rgba(200,169,110,.15);
+    --nav-hover-color: #c8a96e;
+    --nav-shadow:   none;
+
+    /* Días normales */
+    --cell-normal-bg:     transparent;
+    --cell-normal-border: transparent;
+    --cell-hover-bg:      #221f35;
+}
+
+/* ════════════════════════════════════════════════════
+   VARIABLES — Modo Infantil
+════════════════════════════════════════════════════ */
+body.modo-infantil {
+    --bg-from:      #bae6fd;
+    --bg-to:        #f0fdf4;
+    --card-bg:      #ffffff;
+    --card-border:  #bae6fd;
+    --surface-2:    #ede9fe;
+    --text-dark:    #1e3a5f;
+    --text-muted:   #7aa5c8;
+    --accent:       #a78bfa;
+    --accent-soft:  rgba(167,139,250,.15);
+
     --holiday-bg:       #fee2e2;
     --holiday-text:     #dc2626;
     --holiday-dot:      #ef4444;
@@ -33,7 +74,6 @@
     --holiday-movil-txt:#2563eb;
     --holiday-movil-dot:#3b82f6;
 
-    /* Today */
     --today-bg:     #fde047;
     --today-text:   #1e3a5f;
     --today-shadow: rgba(253,224,71,.5);
@@ -41,25 +81,49 @@
     --radius-card:  24px;
     --radius-cell:  14px;
     --shadow-card:  0 20px 60px rgba(14,165,233,.15), 0 2px 8px rgba(14,165,233,.08);
+    --card-border-w: 3px;
+
+    --nav-bg:       white;
+    --nav-border:   #bae6fd;
+    --nav-color:    #7aa5c8;
+    --nav-hover-bg: #ede9fe;
+    --nav-hover-color: #a78bfa;
+    --nav-shadow:   0 4px 0 #bae6fd;
+
+    --cell-normal-bg:     #f8faff;
+    --cell-normal-border: #e8f0fe;
+    --cell-hover-bg:      #ede9fe;
 }
 
-/* ── Reset ─────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-/* ── Body / Fondo ──────────────────────────────────── */
+/* ════════════════════════════════════════════════════
+   BODY / FONDO
+════════════════════════════════════════════════════ */
 body {
-    font-family: 'Nunito', sans-serif;
+    font-family: 'DM Sans', sans-serif;
     min-height: 100vh;
-    background: linear-gradient(160deg, #bae6fd 0%, #e0f2fe 40%, #f0fdf4 100%);
+    background: var(--bg-from);
     display: flex;
     align-items: flex-start;
     justify-content: center;
     overflow-x: hidden;
     position: relative;
+    transition: background 0.4s ease;
 }
 
-/* Patrón de puntos suave */
-body::before {
+body.modo-infantil {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(160deg, var(--bg-from) 0%, #e0f2fe 40%, var(--bg-to) 100%);
+}
+
+/* Textura adulto */
+body:not(.modo-infantil) {
+    background-image:
+        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(200,169,110,.12) 0%, transparent 70%),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.015'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Puntos modo infantil */
+body.modo-infantil::before {
     content: '';
     position: fixed; inset: 0; pointer-events: none; z-index: 0;
     background-image: radial-gradient(circle, #93c5fd 1.2px, transparent 1.2px);
@@ -67,15 +131,113 @@ body::before {
     opacity: 0.35;
 }
 
-/* ── Nubes decorativas ─────────────────────────────── */
-.cloud {
-    position: fixed;
-    font-size: 3rem;
-    opacity: 0.25;
-    pointer-events: none;
-    z-index: 0;
-    animation: floatCloud 8s ease-in-out infinite;
+/* ════════════════════════════════════════════════════
+   PANTALLA DE LOGIN
+════════════════════════════════════════════════════ */
+#login-screen {
+    position: fixed; inset: 0; z-index: 100;
+    background: #0f0e17;
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity 0.4s ease;
 }
+#login-screen.oculto { opacity: 0; pointer-events: none; }
+
+#login-card {
+    background: #1a1828;
+    border: 1px solid #2e2b47;
+    border-radius: 20px;
+    padding: 36px 30px;
+    width: 100%; max-width: 310px;
+    box-shadow: 0 30px 80px rgba(0,0,0,.7);
+    text-align: center;
+    animation: fadeUp .5s ease both;
+}
+#login-icono  { font-size: 2.8rem; margin-bottom: 12px; }
+#login-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; font-weight: 900;
+    color: #e8e4f0; letter-spacing: .04em; margin-bottom: 6px;
+}
+#login-sub {
+    color: #7a748f; font-size: .72rem;
+    letter-spacing: .08em; margin-bottom: 22px;
+    font-family: 'DM Sans', sans-serif;
+}
+#login-input {
+    width: 100%;
+    background: #0f0e17; border: 1px solid #2e2b47;
+    border-radius: 10px; padding: 12px 16px;
+    color: #e8e4f0; font-family: 'DM Sans', sans-serif;
+    font-size: .9rem; outline: none; margin-bottom: 10px;
+    transition: border-color 0.2s;
+}
+#login-input:focus { border-color: #c8a96e; }
+#login-error {
+    color: #ef4444; font-size: .72rem;
+    min-height: 18px; margin-bottom: 10px;
+}
+#login-btn {
+    width: 100%;
+    background: #c8a96e; color: #0f0e17;
+    border: none; border-radius: 10px; padding: 13px;
+    font-family: 'DM Sans', sans-serif; font-weight: 700;
+    font-size: .9rem; letter-spacing: .1em; cursor: pointer;
+    box-shadow: 0 4px 20px rgba(200,169,110,.4);
+    transition: filter .2s, transform .1s;
+}
+#login-btn:hover  { filter: brightness(1.1); }
+#login-btn:active { transform: scale(.97); }
+
+/* ════════════════════════════════════════════════════
+   MAIN WRAPPER (oculto hasta login)
+════════════════════════════════════════════════════ */
+.main-oculto { opacity: 0; pointer-events: none; transition: opacity .4s ease; }
+.main-visible { opacity: 1; pointer-events: all; animation: fadeUp .5s ease both; }
+
+/* ════════════════════════════════════════════════════
+   BANNER SALUDO + SWITCH
+════════════════════════════════════════════════════ */
+#saludo-banner {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; width: 100%; max-width: 680px;
+    background: var(--card-bg);
+    border: var(--card-border-w) solid var(--card-border);
+    border-radius: var(--radius-card);
+    padding: 10px 16px;
+    margin-bottom: 4px;
+    animation: slideDown .4s ease both;
+    transition: background .4s, border .4s, border-radius .4s;
+}
+#saludo-texto {
+    color: var(--text-dark); font-size: .85rem; font-weight: 700;
+    transition: color .4s;
+}
+body:not(.modo-infantil) #saludo-texto { font-family: 'DM Sans', sans-serif; }
+
+/* Botón switch */
+#modo-switch-btn {
+    display: flex; align-items: center; gap: 5px;
+    padding: 5px 13px; border-radius: 999px;
+    border: 1px solid var(--card-border);
+    background: transparent; color: var(--text-muted);
+    font-size: .65rem; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase;
+    cursor: pointer; white-space: nowrap;
+    transition: all .2s ease;
+}
+#modo-switch-btn:hover { border-color: var(--accent); color: var(--accent); }
+body.modo-infantil #modo-switch-btn { font-family: 'Nunito', sans-serif; font-size: .7rem; border-width: 2px; }
+
+/* ════════════════════════════════════════════════════
+   NUBES (solo modo infantil)
+════════════════════════════════════════════════════ */
+.cloud {
+    position: fixed; font-size: 3rem;
+    pointer-events: none; z-index: 0;
+    animation: floatCloud 8s ease-in-out infinite;
+    opacity: 0; transition: opacity .4s;
+}
+body.modo-infantil .cloud { opacity: 0.25; }
 .cloud--1 { top: 8%;  left: 5%;  animation-delay: 0s;   font-size: 2.5rem; }
 .cloud--2 { top: 15%; right: 8%; animation-delay: 2.5s; font-size: 3.5rem; }
 .cloud--3 { bottom: 20%; left: 12%; animation-delay: 5s; font-size: 2rem; }
@@ -86,54 +248,64 @@ body::before {
     66%      { transform: translateY(6px) translateX(-4px); }
 }
 
-/* ── Page wrapper ──────────────────────────────────── */
+/* ════════════════════════════════════════════════════
+   PAGE WRAPPER
+════════════════════════════════════════════════════ */
 .page-wrapper {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    padding: 32px 16px 48px;
-    width: 100%;
+    position: relative; z-index: 1;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 20px;
+    padding: 28px 16px 48px; width: 100%;
 }
 
-/* ── Header: mascota + título ──────────────────────── */
+/* ════════════════════════════════════════════════════
+   HEADER: mascota + título
+════════════════════════════════════════════════════ */
 .header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
+    display: flex; align-items: center; gap: 16px;
     animation: popIn 0.5s cubic-bezier(.34,1.56,.64,1) both;
 }
 
 .header__text {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+    display: flex; flex-direction: column; gap: 4px;
 }
 
+/* Título: adulto usa Playfair, infantil usa Fredoka */
 .title {
+    font-size: clamp(1.8rem, 6vw, 2.8rem);
+    color: var(--text-dark); line-height: 1;
+    transition: color .4s;
+}
+body:not(.modo-infantil) .title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900; letter-spacing: .02em;
+}
+body.modo-infantil .title {
     font-family: 'Fredoka One', cursive;
-    font-size: clamp(2rem, 6vw, 3rem);
-    color: var(--text-dark);
-    line-height: 1;
     text-shadow: 3px 3px 0px rgba(167,139,250,.3);
 }
 
 .subtitle {
-    font-size: .95rem;
-    font-weight: 700;
-    color: var(--violet);
-    letter-spacing: .04em;
+    font-size: .9rem; font-weight: 700;
+    color: var(--accent); letter-spacing: .04em;
+    transition: color .4s;
+}
+body:not(.modo-infantil) .subtitle {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text-muted);
+    font-size: .78rem; letter-spacing: .1em; text-transform: uppercase;
 }
 
-/* ── Mascota ───────────────────────────────────────── */
+/* ════════════════════════════════════════════════════
+   MASCOTA (solo visible en modo infantil)
+════════════════════════════════════════════════════ */
 .mascota {
-    position: relative;
-    flex-shrink: 0;
+    position: relative; flex-shrink: 0;
     animation: float 3.5s ease-in-out infinite;
     cursor: default;
+    display: none; /* oculto en adulto */
 }
+body.modo-infantil .mascota { display: block; }
 .mascota.bounce { animation: mascotaBounce 0.6s ease both; }
 
 /* Parpadeo de ojos */
@@ -152,137 +324,119 @@ body::before {
     animation: starExplode 0.65s ease forwards;
 }
 
-/* ── Calendario (tarjeta) ──────────────────────────── */
+/* ════════════════════════════════════════════════════
+   CALENDARIO (tarjeta)
+════════════════════════════════════════════════════ */
 .calendar {
     background: var(--card-bg);
-    border: 3px solid var(--card-border);
+    border: var(--card-border-w) solid var(--card-border);
     border-radius: var(--radius-card);
     box-shadow: var(--shadow-card);
     padding: 24px 20px 20px;
-    width: 100%;
-    max-width: 680px;
+    width: 100%; max-width: 680px;
     animation: popIn 0.5s cubic-bezier(.34,1.56,.64,1) 0.1s both;
+    transition: background .4s, border .4s, border-radius .4s, box-shadow .4s;
 }
 
-/* ── Navegación mes/año ────────────────────────────── */
+/* ════════════════════════════════════════════════════
+   NAVEGACIÓN MES/AÑO
+════════════════════════════════════════════════════ */
 .calendar__info {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    gap: 12px;
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px; gap: 12px;
 }
-
-.calendar__month-year {
-    text-align: center;
-    flex: 1;
-}
+.calendar__month-year { text-align: center; flex: 1; }
 
 .calendar__month {
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.8rem;
-    color: var(--text-dark);
-    line-height: 1;
+    font-size: 1.8rem; color: var(--text-dark); line-height: 1;
+    transition: color .4s;
 }
+body:not(.modo-infantil) .calendar__month {
+    font-family: 'Playfair Display', serif; font-weight: 700;
+}
+body.modo-infantil .calendar__month { font-family: 'Fredoka One', cursive; }
 
 .calendar__year {
-    font-size: .9rem;
-    font-weight: 800;
-    color: var(--violet);
-    letter-spacing: .12em;
-    margin-top: 2px;
+    font-size: .9rem; font-weight: 800;
+    color: var(--accent); letter-spacing: .12em; margin-top: 2px;
+    transition: color .4s;
 }
 
-/* Botones prev/next estilo "toy" */
+/* Botones prev/next */
 .calendar__prev,
 .calendar__next {
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
     border-radius: 50%;
-    border: 3px solid #bae6fd;
-    background: white;
-    cursor: pointer;
-    color: var(--text-muted);
-    font-size: .85rem;
-    font-weight: 900;
-    box-shadow: 0 4px 0 #bae6fd;
-    transition: transform 0.08s, box-shadow 0.08s, background 0.15s;
+    border: var(--card-border-w) solid var(--nav-border);
+    background: var(--nav-bg);
+    cursor: pointer; color: var(--nav-color);
+    font-size: .85rem; font-weight: 900;
+    box-shadow: var(--nav-shadow);
+    transition: transform 0.08s, box-shadow 0.08s, background 0.15s, border-color 0.15s;
     user-select: none;
 }
 .calendar__prev:hover,
 .calendar__next:hover {
-    background: var(--violet-soft);
-    color: var(--violet);
-    border-color: var(--violet);
+    background: var(--nav-hover-bg);
+    color: var(--nav-hover-color);
+    border-color: var(--nav-hover-color);
+}
+body.modo-infantil .calendar__prev:hover,
+body.modo-infantil .calendar__next:hover {
     box-shadow: 0 4px 0 #c4b5fd;
 }
 .calendar__prev:active,
 .calendar__next:active {
     transform: translateY(3px);
-    box-shadow: 0 1px 0 #bae6fd;
+    box-shadow: none;
 }
 
-/* ── Días de la semana ─────────────────────────────── */
+/* ════════════════════════════════════════════════════
+   DÍAS DE LA SEMANA
+════════════════════════════════════════════════════ */
 .calendar-week {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 4px;
-    margin-bottom: 6px;
+    display: grid; grid-template-columns: repeat(7, 1fr);
+    gap: 4px; margin-bottom: 6px;
 }
-
 .calendar__day {
-    text-align: center;
-    font-size: .72rem;
-    font-weight: 800;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    padding: 5px 0;
+    text-align: center; font-size: .72rem; font-weight: 800;
+    letter-spacing: .06em; text-transform: uppercase;
+    color: var(--text-muted); padding: 5px 0;
+    transition: color .4s;
 }
 
-/* ── Grilla de días ────────────────────────────────── */
+/* ════════════════════════════════════════════════════
+   GRILLA DE DÍAS
+════════════════════════════════════════════════════ */
 .calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px;
 }
 
 .day-cell {
     aspect-ratio: 1 / 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
     border-radius: var(--radius-cell);
-    font-size: .88rem;
-    font-weight: 700;
-    cursor: default;
-    position: relative;
-    padding: 3px 2px;
-    line-height: 1;
-    transition: transform 0.12s, box-shadow 0.12s, background 0.12s;
+    font-size: .88rem; font-weight: 700;
+    cursor: default; position: relative;
+    padding: 3px 2px; line-height: 1;
+    transition: transform .12s, background .12s, border-color .12s, border-radius .4s;
     border: 2px solid transparent;
 }
 
 /* Celda vacía */
-.day-cell--empty {
-    background: transparent;
-    pointer-events: none;
-    border: none;
-}
+.day-cell--empty { background: transparent; pointer-events: none; border: none; }
 
 /* Día normal */
 .day-cell--normal {
     color: var(--text-dark);
-    background: #f8faff;
-    border-color: #e8f0fe;
+    background: var(--cell-normal-bg);
+    border-color: var(--cell-normal-border);
 }
 .day-cell--normal:hover {
-    background: var(--violet-soft);
-    border-color: var(--violet);
+    background: var(--cell-hover-bg);
+    border-color: var(--accent);
     transform: scale(1.1) rotate(-1deg);
     z-index: 1;
 }
@@ -291,13 +445,13 @@ body::before {
 .day-cell--today {
     background: var(--today-bg) !important;
     color: var(--today-text) !important;
-    font-family: 'Fredoka One', cursive;
+    font-weight: 700;
     font-size: 1rem;
-    border: 3px solid #facc15 !important;
+    border: 3px solid var(--today-bg) !important;
     box-shadow: 0 0 0 3px var(--today-shadow), 0 6px 16px var(--today-shadow);
-    transform: scale(1.12);
-    z-index: 2;
+    transform: scale(1.12); z-index: 2;
 }
+body.modo-infantil .day-cell--today { font-family: 'Fredoka One', cursive; }
 .day-cell--today:hover { transform: scale(1.18); }
 
 /* ── FERIADO NACIONAL ── */
@@ -409,6 +563,16 @@ body::before {
     0%   { transform: scale(0.75) translateY(16px); opacity: 0; }
     80%  { transform: scale(1.03) translateY(-2px); opacity: 1; }
     100% { transform: scale(1) translateY(0);       opacity: 1; }
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 /* Flotado continuo de la mascota */

@@ -2,8 +2,120 @@
 
 // ═══════════════════════════════════════════════════════
 //  CALENDARIO MÁGICO — script.js
-//  Lógica original intacta + animaciones de mascota
+//
+//  Funcionalidades:
+//  1. Login con persistencia en localStorage
+//  2. Saludo personalizado al recargar
+//  3. Switch Modo Adulto ↔ Modo Infantil (clases CSS)
+//  4. Lógica de calendario con feriados argentinos
+//  5. Animaciones de mascota al navegar meses
 // ═══════════════════════════════════════════════════════
+
+
+// ── PERSISTENCIA — localStorage ────────────────────────────
+
+const LS_NOMBRE = 'cal_nombre'; // Clave para el nombre del usuario
+const LS_MODO   = 'cal_modo';   // Clave para el modo visual
+
+function guardarNombre(n) { localStorage.setItem(LS_NOMBRE, n); }
+function obtenerNombre()  { return localStorage.getItem(LS_NOMBRE); }
+function guardarModo(m)   { localStorage.setItem(LS_MODO, m); }
+function obtenerModo()    { return localStorage.getItem(LS_MODO) || 'adulto'; }
+
+
+// ── LOGIN ───────────────────────────────────────────────────
+
+const loginScreen = document.getElementById('login-screen');
+const loginInput  = document.getElementById('login-input');
+const loginBtn    = document.getElementById('login-btn');
+const loginError  = document.getElementById('login-error');
+const mainWrapper = document.getElementById('main-wrapper');
+const saludoTexto = document.getElementById('saludo-texto');
+
+/**
+ * Muestra el calendario y oculta el login
+ * @param {string}  nombre
+ * @param {boolean} esPrimerVez
+ */
+function mostrarCalendario(nombre, esPrimerVez) {
+    loginScreen.classList.add('oculto');
+
+    // Saludo diferente según si es primera vez o visita recurrente
+    saludoTexto.textContent = esPrimerVez
+        ? `👋 ¡Hola, ${nombre}! Bienvenido/a`
+        : `✨ ¡Hola de nuevo, ${nombre}!`;
+
+    mainWrapper.classList.remove('main-oculto');
+    mainWrapper.classList.add('main-visible');
+
+    // Restaurar modo guardado sin anunciarlo
+    aplicarModo(obtenerModo(), false);
+}
+
+/** Valida el input y procesa el login */
+function procesarLogin() {
+    const nombre = loginInput.value.trim();
+
+    if (!nombre) {
+        loginError.textContent = '⚠️ Por favor ingresá tu nombre';
+        loginInput.focus(); return;
+    }
+    if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/.test(nombre)) {
+        loginError.textContent = '⚠️ Solo letras, sin números ni símbolos';
+        loginInput.focus(); return;
+    }
+
+    loginError.textContent = '';
+    const esPrimerVez = !obtenerNombre(); // True si no había nombre guardado
+    guardarNombre(nombre);
+    mostrarCalendario(nombre, esPrimerVez);
+}
+
+loginBtn.addEventListener('click', procesarLogin);
+loginInput.addEventListener('keydown', e => { if (e.key === 'Enter') procesarLogin(); });
+
+// Al cargar la página: si hay nombre guardado, saltar login
+window.addEventListener('DOMContentLoaded', () => {
+    const nombreGuardado = obtenerNombre();
+    if (nombreGuardado) {
+        mostrarCalendario(nombreGuardado, false);
+    } else {
+        loginInput.focus();
+    }
+});
+
+
+// ── SWITCH DE MODO VISUAL ───────────────────────────────────
+
+const modoSwitchBtn = document.getElementById('modo-switch-btn');
+const modoIcon      = document.getElementById('modo-icon');
+const modoLabel     = document.getElementById('modo-label');
+let   modoActual    = 'adulto';
+
+/**
+ * Aplica el modo visual cambiando clase del body
+ * @param {string}  modo    - 'adulto' | 'infantil'
+ * @param {boolean} guardar - si persistir en localStorage
+ */
+function aplicarModo(modo, guardar = true) {
+    modoActual = modo;
+    if (guardar) guardarModo(modo);
+
+    if (modo === 'infantil') {
+        document.body.classList.add('modo-infantil');
+        modoIcon.textContent  = '🕴️';
+        modoLabel.textContent = 'MODO ADULTO';
+    } else {
+        document.body.classList.remove('modo-infantil');
+        modoIcon.textContent  = '🧒';
+        modoLabel.textContent = 'MODO INFANTIL';
+    }
+}
+
+// Clic en el switch: alternar entre modos
+modoSwitchBtn.addEventListener('click', () => {
+    aplicarModo(modoActual === 'adulto' ? 'infantil' : 'adulto');
+});
 
 
 // ── Nombres de meses en español ──────────────────────────────
